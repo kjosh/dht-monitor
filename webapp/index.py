@@ -1,6 +1,10 @@
 from flask import Flask, jsonify
-app = Flask(__name__)
+import sqlite3
 
-@app.route('/data')
+app = Flask(__name__)
+connection = sqlite3.connect("dht_values.db", check_same_thread=False)
+
+@app.route("/data")
 def data():
-    return jsonify({})
+    values = connection.cursor().execute("SELECT * FROM dht_values").fetchall()
+    return jsonify(values)
