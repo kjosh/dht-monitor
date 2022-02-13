@@ -10,19 +10,24 @@ INTERVAL = 5.0
 dht_device = adafruit_dht.DHT22(board.D2, use_pulseio=False)
 
 # initialize database table
-connection = sqlite3.connect(":memory:")
+connection = sqlite3.connect("dht_values.db")
 cursor = connection.cursor()
-cursor.execute('''
+cursor.execute("""
     CREATE TABLE dht_values
     (datetime text, temperature_c real, humidity real)
-''')
+""")
 connection.commit()
+
+def cleanup():
+    dht_device.exit()
+    connection.close()
 
 # periodically write values to database
 while True:
     try:
         temperature_c = dht_device.temperature
         humidity = dht_device.humidity
+        print(f"{temperature_c}C, {humidity}% RH")
         cursor.execute("INSERT INTO dht_values values (?, ?, ?)", (datetime.now(), temperature_c, humidity))
         connection.commit()
     except RuntimeError as error:
@@ -30,7 +35,9 @@ while True:
         time.sleep(INTERVAL)
         continue
     except Exception as error:
-        dht_device.exit()
-        connection.close()
+        cleanup()
         raise error
+    except KeyboardInterrupt:
+        cleanup()
+        pass
     time.sleep(INTERVAL)
