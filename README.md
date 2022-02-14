@@ -21,7 +21,7 @@ sensor:
 ```
 
 ## Wiring
-Connect the data output of the DHT22 sensor to GPIO pin 2
+Connect the data output of the DHT22 sensor to the GPIO PIN specified in sensor.datapin (see "Configuration").
 
 ## Dependencies
 * pipenv (`sudo apt-get install pipenv`)
