@@ -12,7 +12,7 @@ A configuration file is required and can either be specified as the first argume
 **Example:**
 ```yaml
 sqlite:
-    file: /home/pi/dht/dht_values.db
+  file: /home/pi/dht/dht_values.db
 sensor:
   datapin: D2 # PIN to poll data from, must be a valid board value
   interval: # intervals at which sensor is polled in seconds, optional section
