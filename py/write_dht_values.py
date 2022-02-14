@@ -1,5 +1,5 @@
 from datetime import datetime
-from .config import config
+from config import config
 import time
 import sqlite3
 import board

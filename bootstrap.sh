@@ -1,9 +1,11 @@
 #!/bin/bash
 export FLASK_APP=./py/webapp/index.py
-if [ $# -ge 1 ]; then
-    export DHT_CFG_FILE=~/.dht-monitor.yaml
+if [ $# -lt 1 ]; then
+	echo "Using default config location"
+	export DHT_CFG_FILE=~/.dht-monitor.yaml
 else
-    export DHT_CFG_FILE=$1
+	echo "Using specified config location $1"
+	export DHT_CFG_FILE=$1
 fi
 source $(pipenv --venv)/bin/activate
 python3 py/write_dht_values.py &
