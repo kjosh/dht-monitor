@@ -37,8 +37,9 @@ while True:
     try:
         temperature_c = dht_device.temperature
         humidity = dht_device.humidity
-        print(f"{temperature_c}C, {humidity}% RH")
-        cursor.execute(f"INSERT INTO {TABLE_NAME} values (?, ?, ?)", (datetime.now(), temperature_c, humidity))
+        poll_time = datetime.now()
+        print(f"{poll_time}: {temperature_c}C, {humidity}% RH")
+        cursor.execute(f"INSERT INTO {TABLE_NAME} values (?, ?, ?)", (poll_time, temperature_c, humidity))
         connection.commit()
     except RuntimeError as error:
         print(error.args[0])
