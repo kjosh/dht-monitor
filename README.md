@@ -11,10 +11,11 @@ A configuration file is required and can either be specified as the first argume
 
 **Example:**
 ```yaml
-sqlite: # required section
+sqlite:
     file: /home/pi/dht/dht_values.db
-sensor: # optional section
-  interval: # intervals at which sensor is polled in seconds
+sensor:
+  datapin: D2 # PIN to poll data from, must be a valid board value
+  interval: # intervals at which sensor is polled in seconds, optional section
     success: 15.0 # timeout after successful poll, default: 10.0
     fail: 3.0     # timeout after failed poll, default: 2.0
 ```
