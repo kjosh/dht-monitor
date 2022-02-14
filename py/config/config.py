@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 
 POLL_INTERVAL_SUCCESS = 10.0
@@ -28,7 +29,10 @@ def sensor_data_pin():
     return read(cfg, ["sensor", "datapin"])
 
 def sensor_poll_interval_success():
-    return read(cfg, ["sensor", "interval", "success"], POLL_INTERVAL_SUCCESS)
+    interval = read(cfg, ["sensor", "interval", "success"], POLL_INTERVAL_SUCCESS)
+    if interval < 2.0:
+        print(f"WARNING: Interval should usually not be lower than 2.0 (configured value: {interval})", file=sys.stderr)
+    return interval
 
 def sensor_poll_interval_fail():
     return read(cfg, ["sensor", "interval", "fail"], POLL_INTERVAL_FAIL)
