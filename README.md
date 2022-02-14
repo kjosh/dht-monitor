@@ -6,6 +6,19 @@ Web interface to check the current and past temperature and humidity values read
 
 localhost:5000/data endpoint returns the collected temperature and humidity data.
 
+### Configuration
+A configuration file is required and can either be specified as the first argument to the bootstrap script or put at the default location `~/.dht-monitor.yaml`
+
+**Example:**
+```yaml
+sqlite: # required section
+    file: /home/pi/dht/dht_values.db
+sensor: # optional section
+  interval: # intervals at which sensor is polled in seconds
+    success: 15.0 # timeout after successful poll, default: 10.0
+    fail: 3.0     # timeout after failed poll, default: 2.0
+```
+
 ## Wiring
 Connect the data output of the DHT22 sensor to GPIO pin 2
 
