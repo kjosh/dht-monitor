@@ -5,7 +5,6 @@ import sqlite3
 import board
 import adafruit_dht
 
-INTERVAL = 5.0
 TABLE_NAME = "dht_values"
 
 # DHT22 sensor on GPIO PIN 2
@@ -32,6 +31,7 @@ if not table_exists():
     connection.commit()
 
 # periodically write values to database
+poll_interval = config.sensor_poll_interval()
 while True:
     try:
         temperature_c = dht_device.temperature
@@ -41,7 +41,7 @@ while True:
         connection.commit()
     except RuntimeError as error:
         print(error.args[0])
-        time.sleep(INTERVAL)
+        time.sleep(poll_interval)
         continue
     except Exception as error:
         cleanup()
@@ -49,4 +49,4 @@ while True:
     except KeyboardInterrupt:
         cleanup()
         pass
-    time.sleep(INTERVAL)
+    time.sleep(poll_interval)
