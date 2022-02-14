@@ -31,7 +31,8 @@ if not table_exists():
     connection.commit()
 
 # periodically write values to database
-poll_interval = config.sensor_poll_interval()
+poll_interval_success = config.sensor_poll_interval_success()
+poll_interval_fail = config.sensor_poll_interval_fail()
 while True:
     try:
         temperature_c = dht_device.temperature
@@ -41,7 +42,7 @@ while True:
         connection.commit()
     except RuntimeError as error:
         print(error.args[0])
-        time.sleep(poll_interval)
+        time.sleep(poll_interval_fail)
         continue
     except Exception as error:
         cleanup()
@@ -49,4 +50,4 @@ while True:
     except KeyboardInterrupt:
         cleanup()
         pass
-    time.sleep(poll_interval)
+    time.sleep(poll_interval_success)
