@@ -1,8 +1,10 @@
+from distutils.command.config import config
 from flask import Flask, jsonify
+from ..config import config
 import sqlite3
 
 app = Flask(__name__)
-connection = sqlite3.connect("dht_values.db", check_same_thread=False)
+connection = sqlite3.connect(config.sqlite_file(), check_same_thread=False)
 
 @app.route("/data")
 def data():

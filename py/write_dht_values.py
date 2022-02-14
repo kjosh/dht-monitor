@@ -1,4 +1,5 @@
 from datetime import datetime
+from config import config
 import time
 import sqlite3
 import board
@@ -11,7 +12,7 @@ TABLE_NAME = "dht_values"
 dht_device = adafruit_dht.DHT22(board.D2, use_pulseio=False)
 
 # initialize database table
-connection = sqlite3.connect("dht_values.db")
+connection = sqlite3.connect(config.sqlite_file())
 cursor = connection.cursor()
 
 def cleanup():
