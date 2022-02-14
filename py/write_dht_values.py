@@ -5,14 +5,13 @@ import sqlite3
 import board
 import adafruit_dht
 
-TABLE_NAME = "dht_values"
-
-# DHT22 sensor on GPIO PIN 2
-dht_device = adafruit_dht.DHT22(board.D2, use_pulseio=False)
+# DHT22 sensor
+dht_device = adafruit_dht.DHT22(getattr(board, config.sensor_data_pin()), use_pulseio=False)
 
 # initialize database table
 connection = sqlite3.connect(config.sqlite_file())
 cursor = connection.cursor()
+table_name = config.sqlite_table_name()
 
 def cleanup():
     dht_device.exit()
@@ -20,12 +19,12 @@ def cleanup():
 
 def table_exists():
     cursor = connection.cursor()
-    cursor.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{TABLE_NAME}'")
+    cursor.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'")
     return cursor.fetchone()[0] == 1
 
 if not table_exists():
     cursor.execute(f"""
-        CREATE TABLE {TABLE_NAME}
+        CREATE TABLE {table_name}
         (datetime text, temperature_c real, humidity real)
     """)
     connection.commit()
@@ -39,7 +38,7 @@ while True:
         humidity = dht_device.humidity
         poll_time = datetime.now()
         print(f"{poll_time}: {temperature_c}C, {humidity}% RH")
-        cursor.execute(f"INSERT INTO {TABLE_NAME} values (?, ?, ?)", (poll_time, temperature_c, humidity))
+        cursor.execute(f"INSERT INTO {table_name} values (?, ?, ?)", (poll_time, temperature_c, humidity))
         connection.commit()
     except RuntimeError as error:
         print(error.args[0])
