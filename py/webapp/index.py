@@ -1,4 +1,3 @@
-from distutils.command.config import config
 from flask import Flask, jsonify
 from ..config import config
 import sqlite3
