@@ -11,7 +11,7 @@ with open(os.environ["DHT_CFG_FILE"], "r") as ymlfile:
 def read(dict, keys, default=None):
     value = dict
     for key in keys:
-        if not key in dict:
+        if not key in value:
             if default:
                 return default
             raise ValueError(keys)
