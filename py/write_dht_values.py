@@ -40,14 +40,11 @@ while True:
         print(f"{poll_time}: {temperature_c}C, {humidity}% RH")
         cursor.execute(f"INSERT INTO {table_name} values (?, ?, ?)", (poll_time, temperature_c, humidity))
         connection.commit()
-    except RuntimeError as error:
+    except (RuntimeError, sqlite3.OperationalError) as error:
         print(error.args[0])
         time.sleep(poll_interval_fail)
         continue
-    except Exception as error:
+    except (Exception, KeyboardInterrupt) as error:
         cleanup()
         raise error
-    except KeyboardInterrupt:
-        cleanup()
-        pass
     time.sleep(poll_interval_success)
