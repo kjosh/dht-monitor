@@ -4,10 +4,11 @@ Web interface to check the current and past temperature and humidity values read
 ## Usage
 `./bootstrap.sh` starts collecting data in the configured sqlite database file and starts a flask web server. 
 
-localhost:5000/data endpoint returns the collected temperature and humidity data.
+* localhost:5000/data endpoint returns collections of collected temperature and humidity data
+* localhost:5000/current offers a WebSocket connection to receive the latest data
 
 ### Configuration
-A configuration file is required and can either be specified as the first argument to the bootstrap script or put at the default location `~/.dht-monitor.yaml`
+A configuration file is required and can either be specified as the bootstrap script's first argument or put at the default location `~/.dht-monitor.yaml`
 
 **Example:**
 ```yaml
@@ -21,7 +22,7 @@ sensor:
 ```
 
 ## Wiring
-Connect the data output of the DHT22 sensor to the GPIO PIN specified in sensor.datapin (see "Configuration").
+Connect the DHT22 sensor's data output to the GPIO PIN specified in sensor.datapin (see "Configuration").
 
 ## Dependencies
 * pipenv (`sudo apt-get install pipenv`)
