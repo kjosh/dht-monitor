@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { ColorGradientNumber, RGB, Level } from "./presentational/ColorGradientText";
 
 type AppProps = {
   baseHost: string;
@@ -37,11 +38,22 @@ class App extends React.Component<AppProps, AppState> {
 const CurrentValues = ({ temperature, humidity, time }: { temperature: number, humidity: number, time: string }) => {
   return (
     <div>
-      <span>{temperature}°C</span><br />
-      <span>RH: {humidity}%</span><br />
+      <Temperature value={temperature} /><br />
+      <Humidity value={humidity} /><br />
       <small>{time}</small>
     </div>
   )
 }
+
+const Temperature = ({ value: temperature }: { value: number }) => <ColorGradientNumber levels={[
+  new Level(13, new RGB(173, 216, 230)),
+  new Level(30, new RGB(255, 0, 0))
+]} value={temperature} unit="°C" icon="🌡️" />
+
+const Humidity = ({ value }: { value: number }) => <ColorGradientNumber levels={[
+  new Level(55, new RGB(0, 128, 0)),
+  new Level(60, new RGB(255, 255, 0)),
+  new Level(65, new RGB(255, 0, 0))
+]} value={value} unit=" %" icon="💧" />
 
 export default App;
