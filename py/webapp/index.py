@@ -26,8 +26,11 @@ def data():
 def current_data_socket(ws):
     last_sent = None
     while True:
-        current = get_current()
-        if not last_sent or last_sent[0] != current[0]:
-            last_sent = current
-            ws.send(json.dumps(current))            
+        try:
+            current = get_current()
+            if not last_sent or last_sent[0] != current[0]:
+                last_sent = current
+                ws.send(json.dumps(current))            
+        except sqlite3.OperationalError:
+            pass # Database locked, retry
         time.sleep(5)
