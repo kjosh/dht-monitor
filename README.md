@@ -25,5 +25,11 @@ sensor:
 Connect the DHT22 sensor's data output to the GPIO PIN specified in sensor.datapin (see "Configuration").
 
 ## Dependencies
-* pipenv (`sudo apt-get install pipenv`)
+Libraries and build tools which are not automatically installed by pipenv or yarn and must be installed before the software can be used.
+
+### Libraries
 * libgpiod2 (`sudo apt-get install libgpiod2`)
+
+### Build tools
+* pipenv (`sudo apt-get install pipenv`)
+* yarn
