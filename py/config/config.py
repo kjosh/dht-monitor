@@ -38,7 +38,7 @@ def sensor_poll_interval_fail():
     return read(cfg, ["sensor", "interval", "fail"], POLL_INTERVAL_FAIL)
 
 def cleanup_enabled():
-    return read(cfg, ["cleanup", "enabled"], "False") == True
+    return read(cfg, ["cleanup", "enabled"], "false") == "true"
 
 def cleanup_delta_days():
     return read(cfg, ["cleanup", "delta", "days"], 0)
