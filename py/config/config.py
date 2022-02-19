@@ -38,14 +38,14 @@ def sensor_poll_interval_fail():
     return read(cfg, ["sensor", "interval", "fail"], POLL_INTERVAL_FAIL)
 
 def cleanup_enabled():
-    return read(cfg, ["cleanup", "enabled"], False)
+    return read(cfg, ["sqlite", "cleanup", "enabled"], False)
 
 def cleanup_delta_days():
-    return read(cfg, ["cleanup", "delta", "days"], 0)
+    return read(cfg, ["sqlite", "cleanup", "delta", "days"], 0)
 
 def cleanup_delta_hours():
-    return read(cfg, ["cleanup", "delta", "hours"], 0)
+    return read(cfg, ["sqlite", "cleanup", "delta", "hours"], 0)
 
 def cleanup_delta_minutes():
-    return read(cfg, ["cleanup", "delta", "minutes"], 0)
+    return read(cfg, ["sqlite", "cleanup", "delta", "minutes"], 0)
     
