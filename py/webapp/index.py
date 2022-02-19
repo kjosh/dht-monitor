@@ -23,12 +23,15 @@ def arg_or_default(req, name, default):
 
 @app.route("/data", methods=["GET"])
 def data():
-    hours = arg_or_default(request, "h", 0)
-    minutes = arg_or_default(request, "m", 0)
-    seconds = arg_or_default(request, "s", 0)
-    if hours == 0 and minutes == 0 and seconds == 0:
-        minutes = 15
-    fetch_after = datetime.now() - timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+    try:
+        hours = int(arg_or_default(request, "h", 0))
+        minutes = int(arg_or_default(request, "m", 0))
+        seconds = int(arg_or_default(request, "s", 0))
+        if hours == 0 and minutes == 0 and seconds == 0:
+            minutes = 15
+        fetch_after = datetime.now() - timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+    except Exception:
+        return "Bad request", 400
     values = cursor.execute(f"SELECT * FROM dht_values WHERE datetime >= :fetch_after", {"fetch_after": fetch_after}).fetchall()
     return jsonify(values)
 
