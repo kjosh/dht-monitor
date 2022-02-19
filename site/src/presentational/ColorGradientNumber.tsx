@@ -1,4 +1,4 @@
-import "./ColorGradientText.css";
+import "./ColorGradientNumber.css";
 
 export class RGB {
     r: number;
@@ -29,17 +29,21 @@ type GradientProps = {
     icon?: string
 }
 
-export const ColorGradientNumber = ({levels, value, unit, icon}: GradientProps) => {
+export const ColorGradientNumber = ({ levels, value, unit, icon }: GradientProps) => {
     validateLevels(levels);
     const reversedLevels: Level[] = Object.assign([], levels).reverse();
-    const lowerBound = reversedLevels.find(l => l.bound < value) || levels[0];
-    const upperBound = levels.find(l => l.bound >= value) || levels[levels.length - 1];
-
-    const r = convertScale(value, lowerBound.bound, upperBound.bound, lowerBound.rgb.r, upperBound.rgb.r);
-    const g = convertScale(value, lowerBound.bound, upperBound.bound, lowerBound.rgb.g, upperBound.rgb.g);
-    const b = convertScale(value, lowerBound.bound, upperBound.bound, lowerBound.rgb.b, upperBound.rgb.b);
-    console.log(`rgb(${r}, ${g}, ${b})`);
-    return <span style={{color: `rgb(${r}, ${g}, ${b})`}}>{icon || ""} {value.toFixed(1)}{unit || ""}</span>
+    const lowerBound = reversedLevels.find(l => l.bound <= value) || levels[0];
+    const upperBound = levels.find(l => l.bound > value) || levels[levels.length - 1];
+    let rgb = lowerBound.rgb;
+    if (lowerBound !== upperBound) {
+        const scaled = (lower: number, upper: number) => convertScale(value, lowerBound.bound, upperBound.bound, lower, upper);
+        rgb = new RGB(
+            scaled(lowerBound.rgb.r, upperBound.rgb.r),
+            scaled(lowerBound.rgb.g, upperBound.rgb.g),
+            scaled(lowerBound.rgb.b, upperBound.rgb.b)
+        );
+    }
+    return <span style={{ color: `rgb(${rgb.r.toFixed(0)}, ${rgb.g.toFixed(0)}, ${rgb.b.toFixed(0)})` }}>{icon || ""} {value.toFixed(1)}{unit || ""}</span>
 }
 
 function validateLevels(levels: Level[]) {
@@ -56,7 +60,7 @@ function validateLevels(levels: Level[]) {
     }
 }
 
-function convertScale(n: number, inLow: number, inHigh: number, outLow: number, outHigh: number) {
+export function convertScale(n: number, inLow: number, inHigh: number, outLow: number, outHigh: number): number {
     const inRange = inHigh - inLow
     const outRange = outHigh - outLow
     const inScale = (n - inLow) / inRange
