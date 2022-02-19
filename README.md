@@ -19,6 +19,14 @@ sensor:
   interval: # intervals at which sensor is polled in seconds, optional section
     success: 15.0 # timeout after successful poll, default: 10.0
     fail: 3.0     # timeout after failed poll, default: 2.0
+cleanup: # optional section to remove old values from the database
+  enabled: true # default: false
+  # maximum age of entries to be kept in the database
+  # the following config would clean up all entries dating back more than 36.5 hours (1d + 12h + 30m)
+  delta:
+    days: 1     # adds days to the time delta, default: 0
+    hours: 12   # adds hours to the time delta, default: 0
+    minutes: 30 # adds minutes to the time delta, default: 0
 ```
 
 ## Wiring
