@@ -5,6 +5,8 @@ Web interface to check the current and past temperature and humidity values read
 `./bootstrap.sh` starts collecting data in the configured sqlite database file and starts a flask web server. 
 
 * localhost:5000/data endpoint returns collections of collected temperature and humidity data
+  * can be limited with h/m/s query parameters to the last X amount of time (e.g. "/data?m=3&s=30")
+  * by default data collected in the last 15 minutes is returned
 * localhost:5000/current offers a WebSocket connection to receive the latest data
 
 ### Configuration
