@@ -1,4 +1,5 @@
 import React from "react";
+import { factory } from "typescript";
 import ApiClient from "./api/ApiClient";
 import "./App.css";
 import { ColorGradientNumber, RGB, Level } from "./presentational/ColorGradientNumber";
@@ -23,7 +24,20 @@ class App extends React.Component<AppProps, AppState> {
     ws.onmessage = (evt: MessageEvent) => {
       const data: any[] = JSON.parse(evt.data);
       this.setState({ time: data[0], temperature: data[1], humidity: data[2] });
+      this.updateFavIcon(this.state.humidity);
     };
+  }
+  updateFavIcon(humidity: number) {
+    const favicon: any = document.getElementById("favicon");
+    if (favicon) {
+      let faviconSuffix = "bad";
+      if (humidity <= 56) {
+        faviconSuffix = "good";
+      } else if (humidity <= 61) {
+        faviconSuffix = "medium";
+      }
+      favicon.href = process.env.PUBLIC_URL + `/favicon-${faviconSuffix}.ico`;
+    }
   }
   render() {
     return (

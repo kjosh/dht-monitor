@@ -33,3 +33,8 @@ Libraries and build tools which are not automatically installed by pipenv or yar
 ### Build tools
 * pipenv (`sudo apt-get install pipenv`)
 * yarn
+
+## Attribution
+
+### Favicons
+The graphics for the favicons were created by Twemoji (https://twemoji.twitter.com/) and are licensed under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
