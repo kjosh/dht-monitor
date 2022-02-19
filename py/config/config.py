@@ -13,7 +13,7 @@ def read(dict, keys, default=None):
     value = dict
     for key in keys:
         if not key in value:
-            if default:
+            if default != None:
                 return default
             raise ValueError(keys)
         value = value[key]
@@ -36,3 +36,16 @@ def sensor_poll_interval_success():
 
 def sensor_poll_interval_fail():
     return read(cfg, ["sensor", "interval", "fail"], POLL_INTERVAL_FAIL)
+
+def cleanup_enabled():
+    return read(cfg, ["cleanup", "enabled"], False)
+
+def cleanup_delta_days():
+    return read(cfg, ["cleanup", "delta", "days"], 0)
+
+def cleanup_delta_hours():
+    return read(cfg, ["cleanup", "delta", "hours"], 0)
+
+def cleanup_delta_minutes():
+    return read(cfg, ["cleanup", "delta", "minutes"], 0)
+    

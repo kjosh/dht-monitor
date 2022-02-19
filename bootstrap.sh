@@ -8,6 +8,7 @@ else
 	export DHT_CFG_FILE=$1
 fi
 source $(pipenv --venv)/bin/activate
+python3 py/cleanup_dht_values.py
 python3 py/write_dht_values.py &
 yarn --cwd ./site start &
 flask run -h 0.0.0.0
