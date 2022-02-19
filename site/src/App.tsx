@@ -1,6 +1,7 @@
 import React from "react";
+import ApiClient from "./api/ApiClient";
 import "./App.css";
-import { ColorGradientNumber, RGB, Level } from "./presentational/ColorGradientText";
+import { ColorGradientNumber, RGB, Level } from "./presentational/ColorGradientNumber";
 
 type AppProps = {
   baseHost: string;
@@ -17,7 +18,8 @@ class App extends React.Component<AppProps, AppState> {
     time: ""
   };
   componentDidMount() {
-    const ws = new WebSocket("ws://" + this.props.baseHost + "/current");
+    const apiClient = new ApiClient(this.props.baseHost, false);
+    const ws = apiClient.currentData();
     ws.onmessage = (evt: MessageEvent) => {
       const data: any[] = JSON.parse(evt.data);
       this.setState({ time: data[0], temperature: data[1], humidity: data[2] });
@@ -46,8 +48,9 @@ const CurrentValues = ({ temperature, humidity, time }: { temperature: number, h
 }
 
 const Temperature = ({ value: temperature }: { value: number }) => <ColorGradientNumber levels={[
-  new Level(13, new RGB(173, 216, 230)),
-  new Level(30, new RGB(255, 0, 0))
+  new Level(15, new RGB(3, 169, 244)),
+  new Level(19, new RGB(225, 225, 225)),
+  new Level(24, new RGB(220, 20, 60))
 ]} value={temperature} unit="°C" icon="🌡️" />
 
 const Humidity = ({ value }: { value: number }) => <ColorGradientNumber levels={[
