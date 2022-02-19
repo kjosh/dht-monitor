@@ -20,6 +20,9 @@ print(f"Removing all entries dating before {cleanup_before}")
 
 try:
     cursor.execute(f"DELETE FROM {table_name} WHERE datetime < :cleanup_before", {"cleanup_before": cleanup_before})
+    connection.commit()
     print(f"Removed {cursor.rowcount} entries")
+    connection.close()
 except (sqlite3.OperationalError) as error:
-    print("Could not finish cleanup: " + error.args[0])
+    print("Could not execute cleanup: " + error.args[0])
+    connection.close()
