@@ -43,7 +43,11 @@ export const ColorGradientNumber = ({ levels, value, unit, icon }: GradientProps
             scaled(lowerBound.rgb.b, upperBound.rgb.b)
         );
     }
-    return <span style={{ color: `rgb(${rgb.r.toFixed(0)}, ${rgb.g.toFixed(0)}, ${rgb.b.toFixed(0)})` }}>{icon || ""} {value.toFixed(1)}{unit || ""}</span>
+    return <span
+        className="color-gradient-number"
+        style={{ color: `rgb(${rgb.r.toFixed(0)}, ${rgb.g.toFixed(0)}, ${rgb.b.toFixed(0)})` }}>
+        {icon || ""} {value.toFixed(1)}{unit || ""}
+    </span>
 }
 
 function validateLevels(levels: Level[]) {
