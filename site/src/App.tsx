@@ -1,31 +1,33 @@
 import React from "react";
-import { factory } from "typescript";
-import ApiClient from "./api/ApiClient";
+import ApiClient, { AirQualityReading } from "./api/ApiClient";
 import "./App.css";
 import { ColorGradientNumber, RGB, Level } from "./presentational/ColorGradientNumber";
 
 type AppProps = {
   baseHost: string;
 };
+
 type AppState = {
-  temperature: number;
-  humidity: number;
-  time: string;
+  current: AirQualityReading;
+  historical: AirQualityReading[];
 };
+
+const DEFAULT_AIR_QUALITY: AirQualityReading = { humidity: 0, temperature: 0, time: "" }
+
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
-    temperature: 0,
-    humidity: 0,
-    time: ""
+    current: DEFAULT_AIR_QUALITY,
+    historical: []
   };
+
   componentDidMount() {
     const apiClient = new ApiClient(this.props.baseHost, false);
-    apiClient.onMessage((evt: MessageEvent) => {
-      const data: any[] = JSON.parse(evt.data);
-      this.setState({ time: data[0], temperature: data[1], humidity: data[2] });
-      this.updateFavIcon(this.state.humidity);
+
+    apiClient.onMessage((current: AirQualityReading) => {
+      this.setState({ current });
     });
   }
+
   updateFavIcon(humidity: number) {
     const favicon: any = document.getElementById("favicon");
     if (favicon) {
@@ -38,17 +40,18 @@ class App extends React.Component<AppProps, AppState> {
       favicon.href = process.env.PUBLIC_URL + `/favicon-${faviconSuffix}.ico`;
     }
   }
+
   render() {
+    const current = this.state.current;
     return (
       <div className="App">
         <header className="App-header">
-          <CurrentValues temperature={this.state.temperature} humidity={this.state.humidity} time={this.state.time} />
+          <CurrentValues temperature={current.temperature} humidity={current.humidity} time={current.time} />
         </header>
       </div>
     );
   }
 }
-
 
 const CurrentValues = ({ temperature, humidity, time }: { temperature: number, humidity: number, time: string }) => {
   return (
