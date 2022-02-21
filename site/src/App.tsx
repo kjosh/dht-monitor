@@ -26,6 +26,7 @@ class App extends React.Component<AppProps, AppState> {
     apiClient.getData().then(historical => this.setState({ historical }));
     apiClient.onMessage((current: AirQualityReading) => {
       this.setState({ current });
+      this.updateFavIcon(current.humidity);
       let historical = this.state.historical;
       if (historical.length > 0 && this.state.historical[historical.length - 1].time !== current.time) {
         historical.push(current);
@@ -54,14 +55,14 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className="App">
         <header className="App-header">
-          <CurrentValues temperature={current.temperature} humidity={current.humidity} time={current.time} />
+          <CurrentAirQuality temperature={current.temperature} humidity={current.humidity} time={current.time} />
         </header>
       </div>
     );
   }
 }
 
-const CurrentValues = ({ temperature, humidity, time }: AirQualityReading) => {
+const CurrentAirQuality = ({ temperature, humidity, time }: AirQualityReading) => {
   return (
     <div>
       <Temperature value={temperature} /><br />
@@ -71,11 +72,11 @@ const CurrentValues = ({ temperature, humidity, time }: AirQualityReading) => {
   )
 }
 
-const Temperature = ({ value: temperature }: { value: number }) => <ColorGradientNumber levels={[
+const Temperature = ({ value }: { value: number }) => <ColorGradientNumber levels={[
   new Level(15, new RGB(3, 169, 244)),
   new Level(19, new RGB(225, 225, 225)),
   new Level(24, new RGB(220, 20, 60))
-]} value={temperature} unit="°C" icon="🌡️" />
+]} value={value} unit="°C" icon="🌡️" />
 
 const Humidity = ({ value }: { value: number }) => <ColorGradientNumber levels={[
   new Level(55, new RGB(0, 128, 0)),
