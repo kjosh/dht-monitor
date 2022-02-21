@@ -26,18 +26,22 @@ class App extends React.Component<AppProps, AppState> {
     apiClient.getData().then(historical => this.setState({ historical }));
     apiClient.onMessage((current: AirQualityReading) => {
       this.setState({ current });
+      this.addToHistoricalState(current);
       this.updateFavIcon(current.humidity);
-      let historical = this.state.historical;
-      if (historical.length > 0 && this.state.historical[historical.length - 1].time !== current.time) {
-        historical.push(current);
-        const cutoff = new Date(new Date().getTime() - (CUTOFF_TIME_IN_MINUTES * 60 * 1000));
-        historical = historical.filter(reading => reading.time.getTime() > cutoff.getTime());
-        this.setState({ historical });
-      }
     });
   }
 
-  updateFavIcon(humidity: number) {
+  private addToHistoricalState(current: AirQualityReading) {
+    let historical = this.state.historical;
+    if (historical.length > 0 && this.state.historical[historical.length - 1].time !== current.time) {
+      historical.push(current);
+      const cutoff = new Date(new Date().getTime() - (CUTOFF_TIME_IN_MINUTES * 60 * 1000));
+      historical = historical.filter(reading => reading.time.getTime() > cutoff.getTime());
+      this.setState({ historical });
+    }
+  }
+
+  private updateFavIcon(humidity: number) {
     const favicon: any = document.getElementById("favicon");
     if (favicon) {
       let faviconSuffix = "bad";
