@@ -47,4 +47,4 @@ Libraries and build tools which are not automatically installed by pipenv or yar
 ## Attribution
 
 ### Favicons
-The graphics for the favicons were created by Twemoji (https://twemoji.twitter.com/) and are licensed under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+The favicon graphics were created by Twemoji (https://twemoji.twitter.com/) and are licensed under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
