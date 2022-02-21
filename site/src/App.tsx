@@ -20,12 +20,11 @@ class App extends React.Component<AppProps, AppState> {
   };
   componentDidMount() {
     const apiClient = new ApiClient(this.props.baseHost, false);
-    const ws = apiClient.currentData();
-    ws.onmessage = (evt: MessageEvent) => {
+    apiClient.onMessage((evt: MessageEvent) => {
       const data: any[] = JSON.parse(evt.data);
       this.setState({ time: data[0], temperature: data[1], humidity: data[2] });
       this.updateFavIcon(this.state.humidity);
-    };
+    });
   }
   updateFavIcon(humidity: number) {
     const favicon: any = document.getElementById("favicon");
