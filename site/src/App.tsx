@@ -8,16 +8,14 @@ type AppProps = {
 };
 
 type AppState = {
-  current: AirQualityReading;
+  current?: AirQualityReading;
   historical: AirQualityReading[];
 };
 
-const DEFAULT_AIR_QUALITY: AirQualityReading = { humidity: 0, temperature: 0, time: new Date() }
 const CUTOFF_TIME_IN_MINUTES = 15;
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
-    current: DEFAULT_AIR_QUALITY,
     historical: []
   };
 
@@ -56,13 +54,13 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
     const current = this.state.current;
-    return (
+    return current ?
       <div className="App">
         <header className="App-header">
           <CurrentAirQuality temperature={current.temperature} humidity={current.humidity} time={current.time} />
         </header>
       </div>
-    );
+      : <div />;
   }
 }
 
