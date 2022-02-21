@@ -12,7 +12,8 @@ type AppState = {
   historical: AirQualityReading[];
 };
 
-const DEFAULT_AIR_QUALITY: AirQualityReading = { humidity: 0, temperature: 0, time: "" }
+const DEFAULT_AIR_QUALITY: AirQualityReading = { humidity: 0, temperature: 0, time: new Date() }
+const CUTOFF_TIME_IN_MINUTES = 15;
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
@@ -25,9 +26,11 @@ class App extends React.Component<AppProps, AppState> {
     apiClient.getData().then(historical => this.setState({ historical }));
     apiClient.onMessage((current: AirQualityReading) => {
       this.setState({ current });
-      const historical = this.state.historical;
+      let historical = this.state.historical;
       if (historical.length > 0 && this.state.historical[historical.length - 1].time !== current.time) {
         historical.push(current);
+        const cutoff = new Date(new Date().getTime() - (CUTOFF_TIME_IN_MINUTES * 60 * 1000));
+        historical = historical.filter(reading => reading.time.getTime() > cutoff.getTime());
         this.setState({ historical });
       }
     });
@@ -58,12 +61,12 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-const CurrentValues = ({ temperature, humidity, time }: { temperature: number, humidity: number, time: string }) => {
+const CurrentValues = ({ temperature, humidity, time }: AirQualityReading) => {
   return (
     <div>
       <Temperature value={temperature} /><br />
       <Humidity value={humidity} /><br />
-      <small>{time}</small>
+      <small>{time.toISOString()}</small>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 export interface AirQualityReading {
     temperature: number;
     humidity: number;
-    time: string;
+    time: Date;
 }
 
 export default class ApiClient {
@@ -33,6 +33,6 @@ export default class ApiClient {
     }
 
     private dataToAirQualityReading(data: any): AirQualityReading {
-        return { time: data[0], temperature: data[1], humidity: data[2] };
+        return { time: new Date(data[0]), temperature: data[1], humidity: data[2] };
     }
 }
