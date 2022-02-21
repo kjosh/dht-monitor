@@ -10,12 +10,11 @@ app = Flask(__name__)
 sock = Sock(app)
 
 connection = sqlite3.connect(config.sqlite_file(), check_same_thread=False)
-cursor = connection.cursor()
 
 current = None
 def get_current():
     # TODO: cache value
-    current = cursor.execute("SELECT * FROM dht_values ORDER BY datetime DESC").fetchone()
+    current = connection.cursor().execute("SELECT * FROM dht_values ORDER BY datetime DESC").fetchone()
     return current
 
 def arg_or_default(req, name, default):
@@ -32,7 +31,7 @@ def data():
         fetch_after = datetime.now() - timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
     except Exception:
         return "Bad request", 400
-    values = cursor.execute(f"SELECT * FROM dht_values WHERE datetime >= :fetch_after", {"fetch_after": fetch_after}).fetchall()
+    values = connection.cursor().execute(f"SELECT * FROM dht_values WHERE datetime >= :fetch_after", {"fetch_after": fetch_after}).fetchall()
     return jsonify(values)
 
 @sock.route("/current")
