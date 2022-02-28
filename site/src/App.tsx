@@ -26,6 +26,7 @@ class App extends React.Component<AppProps, AppState> {
       this.setState({ current });
       this.addToHistoricalState(current);
       this.updateFavIcon(current.humidity);
+      this.updatePageTitle(current);
     });
   }
 
@@ -49,6 +50,13 @@ class App extends React.Component<AppProps, AppState> {
         faviconSuffix = "medium";
       }
       favicon.href = process.env.PUBLIC_URL + `/favicon-${faviconSuffix}.ico`;
+    }
+  }
+
+  private updatePageTitle(current: AirQualityReading) {
+    const title: HTMLElement | null = document.getElementById("page-title");
+    if (title) {
+        title.innerHTML = `${current.humidity}% RH / ${current.temperature}°C`;
     }
   }
 
