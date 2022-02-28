@@ -1,9 +1,11 @@
 span.color-gradient-number {
+    font-size: 1.5em;
     font-family: 'Consolas', Courier, monospace;
 }
 
 @media screen and (max-width: 780px) {
     span.color-gradient-number {
         font-size: 2.5em;
+        margin-left: -0.6em;
     }
 }
