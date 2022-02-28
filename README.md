@@ -4,7 +4,7 @@ Web interface to check the current and past temperature and humidity values read
 ## Usage
 `./bootstrap.sh` starts collecting data in the configured sqlite database file and starts a flask web server. 
 
-* localhost:5000/data endpoint returns collections of collected temperature and humidity data
+* localhost:5000/data endpoint returns collected temperature and humidity data
   * can be limited with h/m/s query parameters to the last X amount of time (e.g. "/data?m=3&s=30")
   * by default data collected in the last 15 minutes is returned
 * localhost:5000/current offers a WebSocket connection to receive the latest data
@@ -47,4 +47,4 @@ Libraries and build tools which are not automatically installed by pipenv or yar
 ## Attribution
 
 ### Favicons
-The graphics for the favicons were created by Twemoji (https://twemoji.twitter.com/) and are licensed under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+The favicon graphics were created by Twemoji (https://twemoji.twitter.com/) and are licensed under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
