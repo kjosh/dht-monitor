@@ -2,7 +2,11 @@
 Web interface to check the current and past temperature and humidity values read from a DHT22 sensor on a Raspberry Pi.
 
 ## Usage
-`./bootstrap.sh` starts collecting data in the configured sqlite database file and starts a flask web server. 
+Run `./bootstrap.sh` to 
+* start collecting data in the configured sqlite database file
+* start a flask web server on port 5000
+* build the react application and copy it to /var/www/html
+  * /var/www/html/static will be overriden in this process
 
 * localhost:5000/data endpoint returns collected temperature and humidity data
   * can be limited with h/m/s query parameters to the last X amount of time (e.g. "/data?m=3&s=30")
