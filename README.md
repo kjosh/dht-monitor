@@ -50,6 +50,9 @@ Libraries and build tools which are not automatically installed by pipenv or yar
 * pipenv (`sudo apt-get install pipenv`)
 * yarn
 
+### Web server
+A web server like Apache or nginx to serve the react frontend from /var/www/html
+
 ## Attribution
 
 ### Favicons
