@@ -51,7 +51,7 @@ Libraries and build tools which are not automatically installed by pipenv or yar
 * yarn
 
 ### Web server
-A web server like Apache or nginx to serve the react frontend from /var/www/html
+A web server like Apache or nginx to serve the react frontend from /var/www/dht-monitor
 
 ## Attribution
 
