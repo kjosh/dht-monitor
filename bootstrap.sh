@@ -18,8 +18,9 @@ python3 ${DIR}/py/cleanup_dht_values.py
 # build React app
 sudo yarn --cwd ${DIR}/site run build
 # copy it to webserver dir
-sudo rm -rf /var/www/html/static
-sudo cp -r ${DIR}/site/build/* /var/www/html
+sudo rm -rf /var/www/dht-monitor
+sudo mkdir /var/www/dht-monitor
+sudo cp -r ${DIR}/site/build/* /var/www/dht-monitor
 
 # run flask server
 export FLASK_APP=${DIR}/py/webapp/index.py
