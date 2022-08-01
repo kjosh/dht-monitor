@@ -10,7 +10,7 @@ declare global {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App baseHost={window.BASE_URL || "raspberrypi:5000"} />
+    <App baseHost={window.BASE_URL || "raspberrypi"} />
   </React.StrictMode>,
   document.getElementById("root")
 );

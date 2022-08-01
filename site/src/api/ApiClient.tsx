@@ -4,6 +4,8 @@ export interface AirQualityReading {
     time: Date;
 }
 
+type Protocol = "http" | "ws";
+
 export default class ApiClient {
     host: string;
     tls: boolean;
@@ -15,7 +17,7 @@ export default class ApiClient {
     }
 
     async getData(): Promise<AirQualityReading[]> {
-        const res = await fetch((this.tls ? "https://" : "http://") + this.host + "/data");
+        const res = await fetch(this.getApiUrl("http", "data"));
         if (!res.ok) {
             throw new Error(res.statusText);
         }
@@ -24,12 +26,16 @@ export default class ApiClient {
 
     onMessage(listener: { (reading: AirQualityReading): void }): void {
         if (!this.ws) {
-            this.ws = new WebSocket((this.tls ? "wss://" : "ws://") + this.host + "/current");
+            this.ws = new WebSocket(this.getApiUrl("ws", "current"));
         }
         this.ws?.addEventListener("message", (evt: MessageEvent) => {
             const data: any[] = JSON.parse(evt.data);
             listener.call(this, this.dataToAirQualityReading(data));
         });
+    }
+
+    private getApiUrl(protocol: Protocol, resource: string): string {
+        return protocol + (this.tls ? "s://" : "://") + this.host + "/dht/" + resource;
     }
 
     private dataToAirQualityReading(data: any): AirQualityReading {

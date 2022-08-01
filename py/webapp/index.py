@@ -20,7 +20,7 @@ def get_current():
 def arg_or_default(req, name, default):
     return req.args[name] if name in req.args else default
 
-@app.route("/data", methods=["GET"])
+@app.route("/dht/data", methods=["GET"])
 def data():
     try:
         hours = int(arg_or_default(request, "h", 0))
@@ -34,7 +34,7 @@ def data():
     values = connection.cursor().execute(f"SELECT * FROM dht_values WHERE datetime >= :fetch_after", {"fetch_after": fetch_after}).fetchall()
     return jsonify(values)
 
-@sock.route("/current")
+@sock.route("/dht/current")
 def current_data_socket(ws):
     last_sent = None
     while True:
