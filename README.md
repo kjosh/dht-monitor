@@ -7,8 +7,8 @@ Web interface to check the current and past temperature and humidity values read
 Run `./bootstrap.sh` to 
 * start collecting data in the configured sqlite database file
 * start a flask web server on port 5000
-* build the react application and copy it to /var/www/html to be served by a web server
-  * /var/www/html/static will be removed before this process and conflicting files overriden
+* build the react application and copy it to /var/www/dht-monitor to be served by a web server
+  * /var/www/dht-monitor will be removed before copying new files
 
 ### Configuration
 A configuration file is required and can either be specified as the bootstrap script's first argument or put at the default location `~/.dht-monitor.yaml`
@@ -32,10 +32,10 @@ sensor:
     fail: 3.0     # timeout after failed poll, default: 2.0
 ```
 ### Usable API endpoints
-* localhost:5000/data endpoint returns collected temperature and humidity data
+* localhost:5000/dht/data endpoint returns collected temperature and humidity data
   * can be limited with h/m/s query parameters to the last X amount of time (e.g. "/data?m=3&s=30")
   * by default data collected in the last 15 minutes is returned
-* localhost:5000/current offers a WebSocket connection to receive the latest data
+* localhost:5000/dht/current offers a WebSocket connection to receive the latest data
 
 ## Wiring
 Connect the DHT22 sensor's data output to the GPIO PIN specified in sensor.datapin (see "Configuration").
